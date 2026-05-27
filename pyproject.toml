@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gcs-mcp-server"
+version = "0.1.0"
+description = "MCP server for Google Cloud Storage"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "google-cloud-storage>=2.0.0",
+]
+
+# uvx がこのコマンド名で実行できるようになる
+[project.scripts]
+gcs-mcp-server = "gcs_mcp_server.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gcs_mcp_server"]
