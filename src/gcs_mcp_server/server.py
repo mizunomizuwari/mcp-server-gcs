@@ -101,10 +101,11 @@ def download_file(bucket: str, name: str, local_path: str) -> str:
         local_path: 保存先のローカルファイルパス（例: "/tmp/report.csv"）
     """
     import pathlib
-    pathlib.Path(local_path).parent.mkdir(parents=True, exist_ok=True)
-    client.bucket(bucket).blob(name).download_to_filename(local_path)
-    size = pathlib.Path(local_path).stat().st_size
-    return f"ダウンロード完了: gs://{bucket}/{name} → {local_path} ({size:,} bytes)"
+    resolved = pathlib.Path(local_path).expanduser().resolve()
+    resolved.parent.mkdir(parents=True, exist_ok=True)
+    client.bucket(bucket).blob(name).download_to_filename(str(resolved))
+    size = resolved.stat().st_size
+    return f"ダウンロード完了: gs://{bucket}/{name} → {resolved} ({size:,} bytes)"
 
 
 @mcp.tool()
