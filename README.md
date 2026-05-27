@@ -11,7 +11,7 @@ Google Cloud Storage を操作する MCP サーバーです。
 | `read_file` | テキストファイルの内容を読み込む |
 | `get_file_info` | ファイルのメタデータを取得 |
 | `upload_text` | テキストをファイルとしてアップロード |
-| `download_file` | GCSのファイルをローカルにダウンロード |
+| `download_file` | GCSのファイルをローカルパスに保存 |
 | `copy_file` | ファイルをコピー |
 | `delete_file` | ファイルを削除 |
 
@@ -46,4 +46,5 @@ Google Cloud Storage を操作する MCP サーバーです。
 | `roles/storage.objectUser` | ファイルの読み取り＋書き込み＋削除（`upload_text` / `download_file` / `copy_file` / `delete_file`） |
 | `roles/storage.admin` | バケット一覧取得（`list_buckets`）を含む全操作 |
 
-> **注意**: `list_buckets` は `storage.buckets.list` 権限を必要とします。この権限は `roles/storage.objectViewer` / `roles/storage.objectUser` には含まれていません。`list_buckets` を使用する場合は `roles/storage.admin`、またはプロジェクトレベルの `roles/viewer` 以上を付与してください。
+> **注意1**: `list_buckets` は `storage.buckets.list` 権限を必要とします。この権限は `roles/storage.objectViewer` / `roles/storage.objectUser` には含まれていません。`list_buckets` を使用する場合は `roles/storage.admin`、またはプロジェクトレベルの `roles/viewer` 以上を付与してください。
+
