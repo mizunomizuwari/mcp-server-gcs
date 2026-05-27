@@ -9,6 +9,7 @@ Google Cloud Storage を操作する MCP サーバーです。
 | `list_buckets` | バケット一覧を取得 |
 | `list_files` | バケット内のファイル一覧を取得 |
 | `read_file` | テキストファイルの内容を読み込む |
+| `read_pptx` | PowerPoint（.pptx）のスライドテキストを読み込む |
 | `get_file_info` | ファイルのメタデータを取得 |
 | `upload_text` | テキストをファイルとしてアップロード |
 | `download_file` | GCSのファイルをローカルパスに保存 |

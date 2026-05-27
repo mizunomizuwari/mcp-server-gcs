@@ -91,6 +91,32 @@ def get_file_info(bucket: str, name: str) -> dict:
 # ===================================================================
 
 @mcp.tool()
+def read_pptx(bucket: str, name: str) -> str:
+    """
+    GCSのPowerPointファイル（.pptx）を読み込み、スライドのテキストを返す
+
+    Args:
+        bucket: バケット名
+        name:   ファイルパス（例: "data/presentation.pptx"）
+    """
+    import io
+    from pptx import Presentation
+
+    data = client.bucket(bucket).blob(name).download_as_bytes()
+    prs = Presentation(io.BytesIO(data))
+    slides = []
+    for i, slide in enumerate(prs.slides, 1):
+        texts = [
+            shape.text_frame.text
+            for shape in slide.shapes
+            if shape.has_text_frame and shape.text_frame.text.strip()
+        ]
+        if texts:
+            slides.append(f"## スライド {i}\n" + "\n".join(texts))
+    return "\n\n".join(slides) if slides else "（テキストなし）"
+
+
+@mcp.tool()
 def download_file(bucket: str, name: str, local_path: str) -> str:
     """
     GCSのファイルをローカルパスに保存する
