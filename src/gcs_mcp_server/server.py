@@ -93,8 +93,7 @@ def get_file_info(bucket: str, name: str) -> dict:
 @mcp.tool()
 def download_file(bucket: str, name: str, local_path: str) -> str:
     """
-    GCSのファイルをMCPサーバーが動作しているマシンのローカルパスに保存する。
-    ブラウザからダウンロードしたい場合は generate_download_url を使うこと。
+    GCSのファイルをローカルパスに保存する
 
     Args:
         bucket:     バケット名
