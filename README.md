@@ -11,8 +11,7 @@ Google Cloud Storage を操作する MCP サーバーです。
 | `read_file` | テキストファイルの内容を読み込む |
 | `get_file_info` | ファイルのメタデータを取得 |
 | `upload_text` | テキストをファイルとしてアップロード |
-| `download_file` | GCSのファイルをMCPサーバーのローカルパスに保存 |
-| `generate_download_url` | ブラウザでダウンロードできる署名付きURLを生成（バイナリ・pptx等に対応） |
+| `download_file` | GCSのファイルをローカルパスに保存 |
 | `copy_file` | ファイルをコピー |
 | `delete_file` | ファイルを削除 |
 
@@ -49,12 +48,3 @@ Google Cloud Storage を操作する MCP サーバーです。
 
 > **注意1**: `list_buckets` は `storage.buckets.list` 権限を必要とします。この権限は `roles/storage.objectViewer` / `roles/storage.objectUser` には含まれていません。`list_buckets` を使用する場合は `roles/storage.admin`、またはプロジェクトレベルの `roles/viewer` 以上を付与してください。
 
-> **注意2**: `generate_download_url` は署名付きURLの生成に秘密鍵が必要なため、`--key-file` でサービスアカウントキーJSONを指定している必要があります。ADC（Application Default Credentials）のみの環境では使用できません。
-
-## ダウンロードについて
-
-`download_file` はMCPサーバーが動作しているマシン（通常はあなたのPC）のファイルシステムに保存します。Claude Desktop などローカルでMCPサーバーを動かしている場合は、指定したパスにそのままファイルが保存されます。
-
-`generate_download_url` は以下の用途に便利です：
-- `.pptx` / `.pdf` などのファイルをブラウザで直接開いてダウンロードしたいとき
-- 生成したURLを他の人と共有したいとき
