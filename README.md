@@ -25,7 +25,7 @@ Google Cloud Storage を操作する MCP サーバーです。
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/mizunomizuwari/gcs-mcp-server.git@main",
+        "git+https://github.com/mizunomizuwari/mcp-server-gcs.git@main",
         "gcs-mcp-server",
         "--project", "your-gcp-project-id",
         "--key-file", "/path/to/service-account.json"
