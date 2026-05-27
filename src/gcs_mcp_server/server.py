@@ -93,7 +93,8 @@ def get_file_info(bucket: str, name: str) -> dict:
 @mcp.tool()
 def download_file(bucket: str, name: str, local_path: str) -> str:
     """
-    GCSのファイルをローカルにダウンロードする
+    GCSのファイルをMCPサーバーが動作しているマシンのローカルパスに保存する。
+    ブラウザからダウンロードしたい場合は generate_download_url を使うこと。
 
     Args:
         bucket:     バケット名
@@ -105,6 +106,28 @@ def download_file(bucket: str, name: str, local_path: str) -> str:
     client.bucket(bucket).blob(name).download_to_filename(local_path)
     size = pathlib.Path(local_path).stat().st_size
     return f"ダウンロード完了: gs://{bucket}/{name} → {local_path} ({size:,} bytes)"
+
+
+@mcp.tool()
+def generate_download_url(bucket: str, name: str, expiration_minutes: int = 60) -> str:
+    """
+    GCSファイルのダウンロード用署名付きURLを生成する。
+    ブラウザで開くとファイルを直接ダウンロードできる。
+    --key-file でサービスアカウントキーを指定している必要がある。
+
+    Args:
+        bucket:             バケット名
+        name:               ファイルパス（例: "data/report.pptx"）
+        expiration_minutes: URLの有効期限（分）デフォルト: 60
+    """
+    import datetime
+    blob = client.bucket(bucket).blob(name)
+    url = blob.generate_signed_url(
+        expiration=datetime.timedelta(minutes=expiration_minutes),
+        method="GET",
+        version="v4",
+    )
+    return f"ダウンロードURL（{expiration_minutes}分間有効）: {url}"
 
 
 @mcp.tool()
