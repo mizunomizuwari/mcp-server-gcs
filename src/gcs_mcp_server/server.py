@@ -91,6 +91,23 @@ def get_file_info(bucket: str, name: str) -> dict:
 # ===================================================================
 
 @mcp.tool()
+def download_file(bucket: str, name: str, local_path: str) -> str:
+    """
+    GCSのファイルをローカルにダウンロードする
+
+    Args:
+        bucket:     バケット名
+        name:       ダウンロード元ファイルパス（例: "data/report.csv"）
+        local_path: 保存先のローカルファイルパス（例: "/tmp/report.csv"）
+    """
+    import pathlib
+    pathlib.Path(local_path).parent.mkdir(parents=True, exist_ok=True)
+    client.bucket(bucket).blob(name).download_to_filename(local_path)
+    size = pathlib.Path(local_path).stat().st_size
+    return f"ダウンロード完了: gs://{bucket}/{name} → {local_path} ({size:,} bytes)"
+
+
+@mcp.tool()
 def upload_text(bucket: str, name: str, content: str, content_type: str = "text/plain") -> str:
     """
     テキストをファイルとしてアップロードする
